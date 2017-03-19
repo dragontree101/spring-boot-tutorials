@@ -46,6 +46,20 @@ spring-boot的官方推荐了两种pom.xml的写法
 # 启动项目
 由于使用了spring-boot的插件
 ```
+		      <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
 ```
 所以会生成一个exec.jar，这个jar包里面包含了所有需要运行的依赖，然后我们可以通过 `java -jar import-pom-1.0.0-SNAPSHOT-exec.jar` 来启动服务，等待服务启动以后，可以执行 `curl '127.0.0.1:8080/tutorials-01/hello'` 来请求服务的接口。这样就算利用spring-boot完成了第一个入门级别的微服务。
 
@@ -56,5 +70,3 @@ spring-boot的官方推荐了两种pom.xml的写法
 
 2. 项目通常不仅仅使用spring-boot的开源组件，所以可能还会存在使用其他开源组件，也需要使用其他项目的默认jar包，这个通过 `parent`的方式是无法完成的， 但是 `import` 的方式可以多个并存，同时通过多个 `import` 来一起管理项目所使用的jar包。
 
-# 相关代码的地址
-https://github.com/dragontree101/spring-boot-tutorials/tree/master/spring-boot-tutorial-01

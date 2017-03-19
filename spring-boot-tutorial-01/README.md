@@ -46,7 +46,7 @@ spring-boot的官方推荐了两种pom.xml的写法
 # 启动项目
 由于使用了spring-boot的插件
 ```
-		      <plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>

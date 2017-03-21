@@ -1,0 +1,18 @@
+key1: value1
+key2: ${value2:default_value2}
+
+list:
+  - list_value1
+  - list_value2
+  - list_value3
+
+map:
+  map_key1: map_value1
+  map_key2: map_value2
+
+qiniuParam:
+  accessKey: testAccessKey
+  secretKey: testSecretKey
+  localImageFilePath: /data/localUpdateFile/
+  otherParam1: 11111
+

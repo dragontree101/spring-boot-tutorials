@@ -1,6 +1,7 @@
 package com.dragon.study.springboot.tutorial.parentpom;
 
-import org.junit.Assert;
+import com.dragon.study.springboot.tutorial.parentpom.bean.TutorialBean;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,13 @@ public class HelloWorldTest {
     assertThat(entity.getStatusCodeValue()).isEqualTo(200);
   }
 
+  @Test
+  public void testTutorialBean() {
+    ResponseEntity<TutorialBean> entity = this.restTemplate.getForEntity("/tutorials-01/tutorialBean", TutorialBean.class);
+    assertThat(entity.getStatusCodeValue()).isEqualTo(200);
+
+    TutorialBean tutorialBean = entity.getBody();
+    assertThat(tutorialBean.getList().size()).isEqualTo(3);
+    assertThat(tutorialBean.getMap().size()).isEqualTo(2);
+  }
 }

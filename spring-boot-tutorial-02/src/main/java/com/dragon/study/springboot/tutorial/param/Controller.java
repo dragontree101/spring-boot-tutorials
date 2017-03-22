@@ -28,7 +28,6 @@ public class Controller {
 
   @RequestMapping(path = "/hello",
       method = RequestMethod.GET,
-      consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
       produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public String helloWorld() {
     String str = "Hello World";
@@ -36,10 +35,8 @@ public class Controller {
     return str;
   }
 
-
   @RequestMapping(path = "/getRequestParam",
       method = RequestMethod.GET,
-      consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
       produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public String getRequest(
       @RequestParam(name = "param1")
@@ -55,7 +52,6 @@ public class Controller {
 
   @RequestMapping(path = "/getRequestObject",
       method = RequestMethod.GET,
-      consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
       produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   @ResponseBody
   public List<ParentModel> getRequestObject() {

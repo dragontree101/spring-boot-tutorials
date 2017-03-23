@@ -3,10 +3,13 @@ package com.dragon.study.springboot.tutorial.param;
 
 import com.dragon.study.springboot.tutorial.param.model.ChildModel;
 import com.dragon.study.springboot.tutorial.param.model.ParentModel;
+import com.dragon.study.springboot.tutorial.param.model.RequestModel;
 
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Maps;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,35 +29,53 @@ import java.util.Map;
 @RequestMapping("/tutorials-02")
 public class Controller {
 
-  @RequestMapping(path = "/hello",
-      method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @RequestMapping(path = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public String helloWorld() {
     String str = "Hello World";
     System.out.println(str);
     return str;
   }
 
-  @RequestMapping(path = "/getRequestParam",
-      method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @RequestMapping(path = "/getRequestParam", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public String getRequest(
-      @RequestParam(name = "param1")
-      String param1,
-      @RequestParam(name = "param2", required = false, defaultValue = "value2")
-      String param2,
-      @RequestHeader(name = "header")
-      String header
-  ) {
+      @RequestParam(name = "param1") String param1,
+      @RequestParam(name = "param2", required = false, defaultValue = "value2") String param2,
+      @RequestHeader(name = "header") String header) {
     System.out.println("param1 is " + param1 + ", param2 is " + param2 + ", header is " + header);
     return "get request param";
   }
 
-  @RequestMapping(path = "/getRequestObject",
-      method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @RequestMapping(path = "/getRequestObject", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
   @ResponseBody
   public List<ParentModel> getRequestObject() {
+    List<ParentModel> list = new ArrayList<>();
+    list.add(createParentModel(1));
+    list.add(createParentModel(2));
+    list.add(createParentModel(3));
+    return list;
+  }
+
+  @RequestMapping(path = "/postRequestObject", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @ResponseBody
+  public List<ParentModel> postRequestObject(
+      @RequestParam(name = "param1") String param1,
+      @RequestParam(name = "param2", required = false, defaultValue = "value2") String param2,
+      @RequestHeader(name = "header") String header) {
+    System.out.println("param1 is " + param1 + ", param2 is " + param2 + ", header is " + header);
+    List<ParentModel> list = new ArrayList<>();
+    list.add(createParentModel(1));
+    list.add(createParentModel(2));
+    list.add(createParentModel(3));
+    return list;
+  }
+
+  @RequestMapping(path = "/postRequestModel", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  @ResponseBody
+  public List<ParentModel> postRequestModel(
+      @Validated @ModelAttribute RequestModel requestModel,
+      @RequestHeader(name = "header") String header) {
+    System.out.println("param1 is " + requestModel.getParam1() + ", param2 is " + requestModel
+        .getParam2() + ", header is " + header);
     List<ParentModel> list = new ArrayList<>();
     list.add(createParentModel(1));
     list.add(createParentModel(2));
@@ -84,7 +105,7 @@ public class Controller {
   private ChildModel createChildModel(int i) {
     ChildModel childModel = new ChildModel();
     childModel.setStringField("child" + i);
-    childModel.setListField(Lists.newArrayList(String.valueOf(i), String.valueOf(i*i)));
+    childModel.setListField(Lists.newArrayList(String.valueOf(i), String.valueOf(i * i)));
     childModel.setMapField(Maps.newHashMap(String.valueOf(i), String.valueOf(i * i)));
     return childModel;
   }
